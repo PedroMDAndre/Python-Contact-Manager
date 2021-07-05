@@ -1,19 +1,21 @@
 from tkinter import *
-
+import contactsIO
 
 def main():
-    screen = MainScreen()
+    contactos = contactsIO.loadContactsData()
+    screen = MainScreen(contactos)
     screen.mainloop()
 
 
 class MainScreen(Frame):
-    def __init__(self):
+    def __init__(self, contactos):
         Frame.__init__(self)
         self.grid()
+        self.contactos = contactos
         self.master.title("Gestor de contactos")
         self.dados = Frame()
         self.label1 = Label(self.dados, text="sdsdf")
-        self.toolbar = ToolBar(self.label1)
+        self.toolbar = ToolBar(self.label1, self.contactos)
         self.toolbar.grid(row=0, column=0)
 
         self.label1.grid(row=1, column=0)
@@ -21,14 +23,16 @@ class MainScreen(Frame):
         self.dados.grid(row=1, column=0)
 
 
+
 class ToolBar(Frame):
-    def __init__(self, screen):
+    def __init__(self, screen, contactos):
         Frame.__init__(self)
         self.screen = screen
+        self.contactos = contactos
         self.grid()
         self.icon = PhotoImage(file="../icons/contact.png")
 
-        self.bt1 = toolBarBtn(self, "Adicionar contacto", self.icon, addContactWindow)
+        self.bt1 = toolBarBtn(self, "Adicionar contacto", self.icon, lambda: addContactWindow(self.contactos))
         self.bt2 = toolBarBtn(self, "Remover contacto", self.icon)
         self.bt3 = toolBarBtn(self, "Ordenar Cres./Decres.", self.icon)
         self.bt4 = toolBarBtn(self, "Procurar", self.icon)
@@ -50,7 +54,6 @@ class ToolBar(Frame):
     # adicionar icon
     # fixar tamanho
     # fazer painel de icons
-    # adicionar contacto
     # remover contacto
     # sort
     # search / reset
@@ -59,7 +62,21 @@ class ToolBar(Frame):
     # ver detalhes / alterar
 
 
-def addContactWindow():
+def addContactWindow(contactos:list[list[str]]):
+    def actFechar():
+        AddContactWindow.destroy()
+
+    def actAdicionar():
+        contacto: list[str] = [
+            enome.get(),
+            etelefone.get(),
+            etelemovel.get(),
+            eemail.get()]
+        contactos.append(contacto)
+        contactsIO.saveContactsData(contactos)
+        print(contacto)
+        actFechar()
+
     AddContactWindow = Tk()
     lnome = Label(AddContactWindow, text="Nome")
     ltelefone = Label(AddContactWindow, text="Telefone")
@@ -71,6 +88,10 @@ def addContactWindow():
     etelemovel = Entry(AddContactWindow)
     eemail = Entry(AddContactWindow)
 
+
+    bcancelar = Button(AddContactWindow, text="Cancelar", command=actFechar)
+    badicionar = Button(AddContactWindow, text="Adicionar", command=actAdicionar)
+
     lnome.grid(row=0, column=0, padx=20, pady=10, sticky=W)
     ltelefone.grid(row=1, column=0, padx=20, pady=10, sticky=W)
     ltelemovel.grid(row=2, column=0, padx=20, pady=10, sticky=W)
@@ -80,6 +101,8 @@ def addContactWindow():
     etelefone.grid(row=1, column=1, padx=20, pady=10)
     etelemovel.grid(row=2, column=1, padx=20, pady=10)
     eemail.grid(row=3, column=1, padx=20, pady=10)
+    bcancelar.grid(row=4, column=0, padx=20, pady=10)
+    badicionar.grid(row=4, column=1, padx=20, pady=10)
 
     AddContactWindow.grid()
     AddContactWindow.mainloop()
