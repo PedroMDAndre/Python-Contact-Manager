@@ -15,7 +15,7 @@ def saveContactsData(contactos: list[list[str]]):
 
 
 def loadContactsData() -> list[list[str]]:
-    pessoas = []
+    pessoas: list[list[str]] = []
     ficheiro = open(path, "r", encoding="utf-8-sig")
     linhas = ficheiro.readlines()
     ficheiro.close()

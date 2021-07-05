@@ -1,6 +1,7 @@
 from tkinter import *
 import contactsIO
 from translation import Translation
+import contactTreeView
 
 
 def main():
@@ -12,29 +13,31 @@ def main():
 class MainScreen(Frame):
     def __init__(self, contactos):
         Frame.__init__(self)
-        self.grid()
-
         self.lingua = Translation()
         self.contactos = contactos
+        self.dadosFrame = contactTreeView.contactTreeView(self)
+
+        self.toolbar = ToolBar(self.contactos, self.lingua)
+
+        self.toolbar.grid()
+        self.dadosFrame.grid()
+        self.configMainScreen()
+
+    def configMainScreen(self):
         self.master.title("Gestor de contactos")
-        self.dadosFrame = createDadosFrame(contactos)
-
-        self.label1 = Label(self.dadosFrame, text="sdsdf")
-        self.toolbar = ToolBar(self.label1, self.contactos, self.lingua)
-
-        self.toolbar.grid(row=0, column=0)
-        self.label1.grid(row=1, column=0)
-        self.dadosFrame.grid(row=1, column=0)
+        self.master.geometry("800x600")
+        self.grid()
+        return
 
 
 class ToolBar(Frame):
 
-    def __init__(self, screen, contactos, lingua: Translation):
-        Frame.__init__(self)
-        self.screen = screen
+    def __init__(self, contactos, lingua: Translation):
+        Frame.__init__(self, bg="white")
+
         self.contactos = contactos
         self.lingua = lingua
-        self.grid()
+        self.pack()
 
         # Icons dos Butões
         self.iconAdd = PhotoImage(file="../icons/add.png")
@@ -58,10 +61,6 @@ class ToolBar(Frame):
         self.bt4.pack(side=LEFT)
         self.bt5.pack(side=LEFT)
         self.bt6.pack(side=LEFT)
-
-    def fechar(self):
-        print("aqui")
-        self.screen["text"] = "2"
 
     def mudarLingua(self):
         self.lingua.trocarLingua()
@@ -139,8 +138,7 @@ def createDadosFrame(contactos: list[list[str]]) -> Frame:
     dadosFrame = Frame()
 
     lbContactos = Listbox(dadosFrame)
-    lbContactos.grid(row=0, column=0)
-
+    lbContactos.pack()
 
     for contacto in contactos:
         lbContactos.insert(END, contacto[0])
