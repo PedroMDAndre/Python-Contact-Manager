@@ -13,21 +13,22 @@ def main():
 
 class MainScreen(Frame):
     def __init__(self, contactos):
+        # Iniciar atributos
         Frame.__init__(self)
         self.lingua = Translation()
         self.contactos = contactos
         self.dadosFrame: ContactTreeView = ContactTreeView(contactos, self.lingua)
-
         self.toolbar: Frame = ToolBar(self, self.contactos, self.lingua)
 
-        self.toolbar.grid(row=0, column=0, sticky='we')
-        self.dadosFrame.grid(row=1, column=0, sticky='we')
+        # Configurar Janela Principal
         self.configMainScreen()
 
     def configMainScreen(self):
         self.master.title("Gestor de contactos")
-        self.master.geometry("800x600")
-        self.grid()
+        self.master.geometry("900x600")
+        self.toolbar.pack(side=TOP, fill=BOTH)
+        self.dadosFrame.pack(side=TOP, fill=BOTH, expand=YES)
+        self.pack()
         return
 
 
