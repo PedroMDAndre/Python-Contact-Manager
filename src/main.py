@@ -27,19 +27,29 @@ class MainScreen(Frame):
 
 
 class ToolBar(Frame):
+
     def __init__(self, screen, contactos, lingua: Translation):
         Frame.__init__(self)
         self.screen = screen
         self.contactos = contactos
+        self.lingua = lingua
         self.grid()
-        self.icon = PhotoImage(file="../icons/contact.png")
 
-        self.bt1 = toolBarBtn(self, lingua.traducao("add_contact"), self.icon, lambda: addContactWindow(self.contactos))
-        self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.icon)
-        self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.icon)
-        self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.icon)
-        self.bt5 = toolBarBtn(self, lingua.traducao("show_all_entries"), self.icon)
-        self.bt6 = toolBarBtn(self, lingua.traducao("change_language"), self.icon)
+        # Icons dos Butões
+        self.iconAdd = PhotoImage(file="../icons/add.png")
+        self.iconRemove = PhotoImage(file="../icons/remove.png")
+        self.iconSort = PhotoImage(file="../icons/sort.png")
+        self.iconFind = PhotoImage(file="../icons/find.png")
+        self.iconAll = PhotoImage(file="../icons/all.png")
+        self.iconLanguage = PhotoImage(file="../icons/language.png")
+
+        self.bt1 = toolBarBtn(self, lingua.traducao("add_contact"), self.iconAdd,
+                              lambda: addContactWindow(self.contactos))
+        self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove)
+        self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort)
+        self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind)
+        self.bt5 = toolBarBtn(self, lingua.traducao("show_all_entries"), self.iconAll)
+        self.bt6 = toolBarBtn(self, lingua.traducao("change_language"), self.iconLanguage, self.mudarLingua)
         self.bt1.pack(side=LEFT)
         self.bt2.pack(side=LEFT)
         self.bt3.pack(side=LEFT)
@@ -52,17 +62,20 @@ class ToolBar(Frame):
         self.screen["text"] = "2"
 
     def mudarLingua(self):
-        return
+        self.lingua.trocarLingua()
+        self.bt1["text"] = self.lingua.traducao("add_contact")
+        self.bt2["text"] = self.lingua.traducao("remove_contact")
+        self.bt3["text"] = self.lingua.traducao("sort_contacts")
+        self.bt4["text"] = self.lingua.traducao("find_contacts")
+        self.bt5["text"] = self.lingua.traducao("show_all_entries")
+        self.bt6["text"] = self.lingua.traducao("change_language")
 
     # Lista de funcionalidades
     # adicionar nome
-    # adicionar icon
     # fixar tamanho
-    # fazer painel de icons
     # remover contacto
     # sort
     # search / reset
-    # mudar língua
     # ler contactos de ficheiro
     # ver detalhes / alterar
 
@@ -113,7 +126,7 @@ def addContactWindow(contactos: list[list[str]]):
 
 
 def toolBarBtn(master, text, icon, command=""):
-    return Button(master, text=text, image=icon, width=150, compound="top", command=command,
+    return Button(master, text=text, image=icon, width=100, height=60, compound="top", command=command,
                   bg="white",
                   border=0)
 

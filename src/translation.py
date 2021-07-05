@@ -1,18 +1,18 @@
 class Translation:
     dictionary: dict = {
-        "add_contact": ["Adicionar Contacto", "Add Contact"],
-        "remove_contact": ["Remover Contacto", "Remove Contact"],
-        "sort_contacts": ["Ordenar Cres./Decres.", "Sort Asc./Des."],
+        "add_contact": ["Adicionar\nContacto", "Add\nContact"],
+        "remove_contact": ["Remover\nContacto", "Remove\nContact"],
+        "sort_contacts": ["Ordenar\nCres./Decres.", "Sort\nAsc./Des."],
         "find_contacts": ["Procurar", "Find"],
-        "show_all_entries": ["Todas os contactos", "All Contacts"],
-        "change_language": ["Mudar de Língua", "Change Language"]
+        "show_all_entries": ["Todos os\ncontactos", "All\nContacts"],
+        "change_language": ["Mudar de\nLíngua", "Change\nLanguage"]
     }
 
     def __init__(self):
         self.PT: int = 0
         self.EN: int = 1
 
-        self.linguaActual = self.EN
+        self.linguaActual = self.PT
 
     def trocarLingua(self):
         if self.linguaActual == self.PT:
