@@ -1,0 +1,45 @@
+Red
+    Name: Red
+    Hex: #FD0100
+    RGB: (253, 1, 0)
+    CMYK: 0, 0.996, 1, 0.007
+
+
+Orange-Red
+
+    Name: Orange-Red
+    Hex: #F76915
+    RGB: (247, 105, 21)
+    CMYK: 0, 0.574, 0.914, 0.031
+
+
+Titanium Yellow
+
+    Name: Titanium Yellow
+    Hex: #EEDE04
+    RGB: (238, 222, 4)
+    CMYK: 0, 0.067, 0.983, 0.066
+
+
+Yellow-Green
+
+    Name: Yellow-Green
+    Hex: #A0D636
+    RGB: (160, 214, 54)
+    CMYK: 0.252, 0, 0.747, 0.160
+
+
+Wageningen Green
+
+    Name: Wageningen Green
+    Hex: #2fa236
+    RGB: (47, 162, 54)
+    CMYK: 0.709, 0, 0.666, 0.364
+
+
+Palatinate Blue
+
+    Name: Palatinate Blue
+    Hex: #333ED4
+    RGB: (51, 62, 212)
+    CMYK: 0.759, 0.707, 0, 0.168
