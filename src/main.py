@@ -13,17 +13,18 @@ class MainScreen(Frame):
     def __init__(self, contactos):
         Frame.__init__(self)
         self.grid()
+
         self.lingua = Translation()
         self.contactos = contactos
         self.master.title("Gestor de contactos")
-        self.dados = Frame()
-        self.label1 = Label(self.dados, text="sdsdf")
+        self.dadosFrame = createDadosFrame(contactos)
+
+        self.label1 = Label(self.dadosFrame, text="sdsdf")
         self.toolbar = ToolBar(self.label1, self.contactos, self.lingua)
+
         self.toolbar.grid(row=0, column=0)
-
         self.label1.grid(row=1, column=0)
-
-        self.dados.grid(row=1, column=0)
+        self.dadosFrame.grid(row=1, column=0)
 
 
 class ToolBar(Frame):
@@ -44,12 +45,13 @@ class ToolBar(Frame):
         self.iconLanguage = PhotoImage(file="../icons/language.png")
 
         self.bt1 = toolBarBtn(self, lingua.traducao("add_contact"), self.iconAdd,
-                              lambda: addContactWindow(self.contactos))
+                              lambda: addContactWindow(self.contactos, self.lingua))
         self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove)
         self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort)
         self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind)
         self.bt5 = toolBarBtn(self, lingua.traducao("show_all_entries"), self.iconAll)
-        self.bt6 = toolBarBtn(self, lingua.traducao("change_language"), self.iconLanguage, self.mudarLingua)
+        self.bt6 = toolBarBtn(self, lingua.traducao("change_language"), self.iconLanguage,
+                              self.mudarLingua)
         self.bt1.pack(side=LEFT)
         self.bt2.pack(side=LEFT)
         self.bt3.pack(side=LEFT)
@@ -80,7 +82,7 @@ class ToolBar(Frame):
     # ver detalhes / alterar
 
 
-def addContactWindow(contactos: list[list[str]]):
+def addContactWindow(contactos: list[list[str]], lingua: Translation):
     def actFechar():
         AddContactWindow.destroy()
 
@@ -96,18 +98,18 @@ def addContactWindow(contactos: list[list[str]]):
         actFechar()
 
     AddContactWindow = Tk()
-    lnome = Label(AddContactWindow, text="Nome")
-    ltelefone = Label(AddContactWindow, text="Telefone")
-    ltelemovel = Label(AddContactWindow, text="Telemóvel")
-    lemail = Label(AddContactWindow, text="E-mail")
+    lnome = Label(AddContactWindow, text=lingua.traducao("name"))
+    ltelefone = Label(AddContactWindow, text=lingua.traducao("phone"))
+    ltelemovel = Label(AddContactWindow, text=lingua.traducao("mobile"))
+    lemail = Label(AddContactWindow, text=lingua.traducao("email"))
 
     enome = Entry(AddContactWindow)
     etelefone = Entry(AddContactWindow)
     etelemovel = Entry(AddContactWindow)
     eemail = Entry(AddContactWindow)
 
-    bcancelar = Button(AddContactWindow, text="Cancelar", command=actFechar)
-    badicionar = Button(AddContactWindow, text="Adicionar", command=actAdicionar)
+    bcancelar = Button(AddContactWindow, text=lingua.traducao("cancel"), command=actFechar)
+    badicionar = Button(AddContactWindow, text=lingua.traducao("add"), command=actAdicionar)
 
     lnome.grid(row=0, column=0, padx=20, pady=10, sticky=W)
     ltelefone.grid(row=1, column=0, padx=20, pady=10, sticky=W)
@@ -126,9 +128,24 @@ def addContactWindow(contactos: list[list[str]]):
 
 
 def toolBarBtn(master, text, icon, command=""):
-    return Button(master, text=text, image=icon, width=100, height=60, compound="top", command=command,
+    return Button(master, text=text, image=icon,
+                  width=100, height=60,
+                  compound="top", command=command,
                   bg="white",
                   border=0)
+
+
+def createDadosFrame(contactos: list[list[str]]) -> Frame:
+    dadosFrame = Frame()
+
+    lbContactos = Listbox(dadosFrame)
+    lbContactos.grid(row=0, column=0)
+
+
+    for contacto in contactos:
+        lbContactos.insert(END, contacto[0])
+
+    return dadosFrame
 
 
 if __name__ == '__main__':

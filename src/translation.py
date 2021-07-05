@@ -5,7 +5,13 @@ class Translation:
         "sort_contacts": ["Ordenar\nCres./Decres.", "Sort\nAsc./Des."],
         "find_contacts": ["Procurar", "Find"],
         "show_all_entries": ["Todos os\ncontactos", "All\nContacts"],
-        "change_language": ["Mudar de\nLíngua", "Change\nLanguage"]
+        "change_language": ["Mudar de\nLíngua", "Change\nLanguage"],
+        "name": ["Nome", "Name"],
+        "phone": ["Telefone", "Phone"],
+        "mobile": ["Telemóvel", "Mobile"],
+        "email": ["E-mail", "E-mail"],
+        "cancel": ["Cancelar", "Cancel"],
+        "add": ["Adicionar", "Add"]
     }
 
     def __init__(self):
