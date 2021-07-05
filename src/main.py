@@ -2,6 +2,7 @@ from tkinter import *
 import contactsIO
 from translation import Translation
 import contactTreeView
+from contactTreeView import ContactTreeView
 
 
 def main():
@@ -15,12 +16,12 @@ class MainScreen(Frame):
         Frame.__init__(self)
         self.lingua = Translation()
         self.contactos = contactos
-        self.dadosFrame = contactTreeView.contactTreeView(self)
+        self.dadosFrame: ContactTreeView = ContactTreeView(contactos, self.lingua)
 
-        self.toolbar = ToolBar(self.contactos, self.lingua)
+        self.toolbar: Frame = ToolBar(self, self.contactos, self.lingua)
 
-        self.toolbar.grid()
-        self.dadosFrame.grid()
+        self.toolbar.grid(row=0, column=0, sticky='we')
+        self.dadosFrame.grid(row=1, column=0, sticky='we')
         self.configMainScreen()
 
     def configMainScreen(self):
@@ -32,12 +33,13 @@ class MainScreen(Frame):
 
 class ToolBar(Frame):
 
-    def __init__(self, contactos, lingua: Translation):
+    def __init__(self, mainFrame: MainScreen, contactos, lingua: Translation):
         Frame.__init__(self, bg="white")
 
         self.contactos = contactos
         self.lingua = lingua
         self.pack()
+        self.mainFrame = mainFrame
 
         # Icons dos Butões
         self.iconAdd = PhotoImage(file="../icons/add.png")
@@ -62,14 +64,18 @@ class ToolBar(Frame):
         self.bt5.pack(side=LEFT)
         self.bt6.pack(side=LEFT)
 
-    def mudarLingua(self):
-        self.lingua.trocarLingua()
+    def definirTextoButoes(self):
         self.bt1["text"] = self.lingua.traducao("add_contact")
         self.bt2["text"] = self.lingua.traducao("remove_contact")
         self.bt3["text"] = self.lingua.traducao("sort_contacts")
         self.bt4["text"] = self.lingua.traducao("find_contacts")
         self.bt5["text"] = self.lingua.traducao("show_all_entries")
         self.bt6["text"] = self.lingua.traducao("change_language")
+
+    def mudarLingua(self):
+        self.lingua.trocarLingua()
+        self.definirTextoButoes()
+        self.mainFrame.dadosFrame.definirHeadings()
 
     # Lista de funcionalidades
     # adicionar nome
