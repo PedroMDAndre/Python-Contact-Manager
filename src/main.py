@@ -1,5 +1,7 @@
 from tkinter import *
 import contactsIO
+from translation import Translation
+
 
 def main():
     contactos = contactsIO.loadContactsData()
@@ -11,11 +13,12 @@ class MainScreen(Frame):
     def __init__(self, contactos):
         Frame.__init__(self)
         self.grid()
+        self.lingua = Translation()
         self.contactos = contactos
         self.master.title("Gestor de contactos")
         self.dados = Frame()
         self.label1 = Label(self.dados, text="sdsdf")
-        self.toolbar = ToolBar(self.label1, self.contactos)
+        self.toolbar = ToolBar(self.label1, self.contactos, self.lingua)
         self.toolbar.grid(row=0, column=0)
 
         self.label1.grid(row=1, column=0)
@@ -23,21 +26,20 @@ class MainScreen(Frame):
         self.dados.grid(row=1, column=0)
 
 
-
 class ToolBar(Frame):
-    def __init__(self, screen, contactos):
+    def __init__(self, screen, contactos, lingua: Translation):
         Frame.__init__(self)
         self.screen = screen
         self.contactos = contactos
         self.grid()
         self.icon = PhotoImage(file="../icons/contact.png")
 
-        self.bt1 = toolBarBtn(self, "Adicionar contacto", self.icon, lambda: addContactWindow(self.contactos))
-        self.bt2 = toolBarBtn(self, "Remover contacto", self.icon)
-        self.bt3 = toolBarBtn(self, "Ordenar Cres./Decres.", self.icon)
-        self.bt4 = toolBarBtn(self, "Procurar", self.icon)
-        self.bt5 = toolBarBtn(self, "Todas as entradas", self.icon)
-        self.bt6 = toolBarBtn(self, "Mudar de língua", self.icon)
+        self.bt1 = toolBarBtn(self, lingua.traducao("add_contact"), self.icon, lambda: addContactWindow(self.contactos))
+        self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.icon)
+        self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.icon)
+        self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.icon)
+        self.bt5 = toolBarBtn(self, lingua.traducao("show_all_entries"), self.icon)
+        self.bt6 = toolBarBtn(self, lingua.traducao("change_language"), self.icon)
         self.bt1.pack(side=LEFT)
         self.bt2.pack(side=LEFT)
         self.bt3.pack(side=LEFT)
@@ -48,6 +50,9 @@ class ToolBar(Frame):
     def fechar(self):
         print("aqui")
         self.screen["text"] = "2"
+
+    def mudarLingua(self):
+        return
 
     # Lista de funcionalidades
     # adicionar nome
@@ -62,7 +67,7 @@ class ToolBar(Frame):
     # ver detalhes / alterar
 
 
-def addContactWindow(contactos:list[list[str]]):
+def addContactWindow(contactos: list[list[str]]):
     def actFechar():
         AddContactWindow.destroy()
 
@@ -87,7 +92,6 @@ def addContactWindow(contactos:list[list[str]]):
     etelefone = Entry(AddContactWindow)
     etelemovel = Entry(AddContactWindow)
     eemail = Entry(AddContactWindow)
-
 
     bcancelar = Button(AddContactWindow, text="Cancelar", command=actFechar)
     badicionar = Button(AddContactWindow, text="Adicionar", command=actAdicionar)
