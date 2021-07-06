@@ -3,7 +3,7 @@ import contactsIO
 from translation import Translation
 from contactTreeView import ContactTreeView
 from windowsUtils import centrarJanela
-from tkinter.messagebox import showinfo
+from tkinter import messagebox as msgBox
 
 
 def main():
@@ -18,7 +18,7 @@ class MainScreen(Frame):
         Frame.__init__(self)
         self.lingua = Translation()
         self.contactos = contactos
-        self.dadosFrame: ContactTreeView = ContactTreeView(contactos, self.lingua)
+        self.dadosFrame: ContactTreeView = ContactTreeView(self, contactos, self.lingua)
         self.toolbar: Frame = ToolBar(self, self.contactos, self.lingua)
 
         # Configurar Janela Principal
@@ -32,7 +32,6 @@ class MainScreen(Frame):
         self.toolbar.pack(side=TOP, fill=BOTH)
         self.dadosFrame.pack(side=TOP, fill=BOTH, expand=YES)
         self.pack()
-        return
 
 
 class ToolBar(Frame):
@@ -81,8 +80,11 @@ class ToolBar(Frame):
 
     def removerContacto(self):
         # Perguntar se tem a certeza de que deseja eliminar o contacto
-        self.mainFrame.dadosFrame.removerContacto()
-        contactsIO.saveContactsData(self.contactos)
+        choice = msgBox.askyesno(title="", message=self.lingua.traducao("msg_confirm_remove"))
+
+        if choice:
+            self.mainFrame.dadosFrame.removerContacto()
+            contactsIO.saveContactsData(self.contactos)
 
     def mudarLingua(self):
         self.lingua.trocarLingua()

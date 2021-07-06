@@ -1,14 +1,18 @@
 from tkinter import *
 from tkinter import ttk
 from translation import Translation
+from auxWindows import changeContactWindow
+from main import MainScreen
+import contactsIO
 
 
 class ContactTreeView(Frame):
-    def __init__(self, contacts, lingua: Translation):
+    def __init__(self, mainFrame: MainScreen, contacts, lingua: Translation):
         Frame.__init__(self)
         self.frameTop = Frame(self)
         self.frameBottom = Frame(self)
-        self.contacts = contacts
+        self.mainFrame = mainFrame
+        self.contacts: list[list[str]] = contacts
         self.filteredContacts = []
         self.lingua = lingua
         self.style = ttk.Style()
@@ -25,13 +29,13 @@ class ContactTreeView(Frame):
                                  show='headings',
                                  selectmode="browse",
                                  style="mystyle.Treeview")
+        self.tree.bind("<Double-1>", self.alterarContacto)
 
         # definir headings
         self.definirHeadings()
 
         # adding data to the treeview
         # construct filtered/sorted array
-
         for contact in self.contacts:
             self.tree.insert('', END, values=contact)
             self.filteredContacts.append(contact)
@@ -96,10 +100,27 @@ class ContactTreeView(Frame):
         contactoRemover = []
         for a, contacto in enumerate(lista):
             token = "".join(contacto)
-
             if tokenProcurar.lower() == token.lower():
                 contactoRemover = contacto
                 break
 
         if contactoRemover in lista:
             lista.remove(contactoRemover)
+
+    def alterarContacto(self, event):
+        selectedItem = self.tree.selection()[0]
+        contactoAntigo = self.tree.item(selectedItem)["values"]
+        contactoAlterado = contactoAntigo
+
+        changeContactWindow(self.mainFrame, contactoAlterado, self.lingua)
+
+        if contactoAlterado != contactoAntigo:
+            self.removerContacto()
+            self.contacts.append(contactoAlterado)
+            self.filteredContacts.append(contactoAlterado)
+            contactsIO.saveContactsData(self.contacts)
+            self.mostrarResultado()
+
+
+        print("you clicked on", self.tree.item(selectedItem,"text"))
+
