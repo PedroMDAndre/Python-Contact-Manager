@@ -10,5 +10,4 @@
     # ler contactos de ficheiro (csv)
     # guardar contactos em ficheiro (csv)
 
-    # alteração de contacto
     # janela de mensagens não esconder a janela principal
