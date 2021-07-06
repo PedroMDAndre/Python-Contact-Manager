@@ -1,7 +1,6 @@
 from tkinter import *
 import contactsIO
 from translation import Translation
-import contactTreeView
 from contactTreeView import ContactTreeView
 
 
@@ -26,6 +25,7 @@ class MainScreen(Frame):
     def configMainScreen(self):
         self.master.title("Gestor de contactos")
         self.master.geometry("900x600")
+        self.master.resizable(False, False)
         self.toolbar.pack(side=TOP, fill=BOTH)
         self.dadosFrame.pack(side=TOP, fill=BOTH, expand=YES)
         self.pack()
@@ -33,7 +33,6 @@ class MainScreen(Frame):
 
 
 class ToolBar(Frame):
-
     def __init__(self, mainFrame: MainScreen, contactos, lingua: Translation):
         Frame.__init__(self, bg="white")
 
@@ -51,7 +50,7 @@ class ToolBar(Frame):
         self.iconLanguage = PhotoImage(file="../icons/language.png")
 
         self.bt1 = toolBarBtn(self, lingua.traducao("add_contact"), self.iconAdd,
-                              lambda: addContactWindow(self.contactos, self.lingua))
+                              lambda: addContactWindow(self.mainFrame, self.contactos, self.lingua))
         self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove)
         self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort)
         self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind)
@@ -79,18 +78,17 @@ class ToolBar(Frame):
         self.mainFrame.dadosFrame.definirHeadings()
 
     # Lista de funcionalidades
-    # adicionar nome
     # fixar tamanho
     # remover contacto
     # sort
     # search / reset
-    # ler contactos de ficheiro
     # ver detalhes / alterar
 
 
-def addContactWindow(contactos: list[list[str]], lingua: Translation):
+def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: Translation):
     def actFechar():
         AddContactWindow.destroy()
+        mainFrame.master.attributes('-disabled', False)
 
     def actAdicionar():
         contacto: list[str] = [
@@ -100,19 +98,25 @@ def addContactWindow(contactos: list[list[str]], lingua: Translation):
             eemail.get()]
         contactos.append(contacto)
         contactsIO.saveContactsData(contactos)
-        print(contacto)
+        mainFrame.dadosFrame.tree.insert('', END, values=contacto)
+
         actFechar()
 
+    mainFrame.master.attributes('-disabled', True)
     AddContactWindow = Tk()
+    AddContactWindow.protocol("WM_DELETE_WINDOW", actFechar)
+
+    AddContactWindow.resizable(False, False)
+
     lnome = Label(AddContactWindow, text=lingua.traducao("name"))
     ltelefone = Label(AddContactWindow, text=lingua.traducao("phone"))
     ltelemovel = Label(AddContactWindow, text=lingua.traducao("mobile"))
     lemail = Label(AddContactWindow, text=lingua.traducao("email"))
 
-    enome = Entry(AddContactWindow)
-    etelefone = Entry(AddContactWindow)
-    etelemovel = Entry(AddContactWindow)
-    eemail = Entry(AddContactWindow)
+    enome = Entry(AddContactWindow, width=30)
+    etelefone = Entry(AddContactWindow, width=30)
+    etelemovel = Entry(AddContactWindow, width=30)
+    eemail = Entry(AddContactWindow, width=30)
 
     bcancelar = Button(AddContactWindow, text=lingua.traducao("cancel"), command=actFechar)
     badicionar = Button(AddContactWindow, text=lingua.traducao("add"), command=actAdicionar)
@@ -139,18 +143,6 @@ def toolBarBtn(master, text, icon, command=""):
                   compound="top", command=command,
                   bg="white",
                   border=0)
-
-
-def createDadosFrame(contactos: list[list[str]]) -> Frame:
-    dadosFrame = Frame()
-
-    lbContactos = Listbox(dadosFrame)
-    lbContactos.pack()
-
-    for contacto in contactos:
-        lbContactos.insert(END, contacto[0])
-
-    return dadosFrame
 
 
 if __name__ == '__main__':

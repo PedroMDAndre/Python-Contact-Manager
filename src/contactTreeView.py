@@ -24,6 +24,7 @@ class ContactTreeView(Frame):
         self.definirHeadings()
 
         # adding data to the treeview
+        sorted(contacts,)
         for contact in contacts:
             self.tree.insert('', END, values=contact)
 
