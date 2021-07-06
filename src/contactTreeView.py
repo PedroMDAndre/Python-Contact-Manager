@@ -13,6 +13,7 @@ class ContactTreeView(Frame):
         self.filteredContacts = []
         self.lingua = lingua
         self.style = ttk.Style()
+        self.nomeOrdenarCrescente = True
 
         self.frameTop.pack(side=TOP, fill=BOTH, expand=YES)
         self.frameBottom.pack(side=BOTTOM, fill=X)
@@ -76,3 +77,13 @@ class ContactTreeView(Frame):
         self.tree.delete(*self.tree.get_children())
         for contact in self.filteredContacts:
             self.tree.insert('', END, values=contact)
+
+    def ordenarPeloNome(self):
+        if self.nomeOrdenarCrescente:
+            self.filteredContacts.sort()
+            self.nomeOrdenarCrescente = False
+        else:
+            self.filteredContacts.reverse()
+            self.nomeOrdenarCrescente = True
+
+        self.mostrarResultado()

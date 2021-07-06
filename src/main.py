@@ -52,7 +52,8 @@ class ToolBar(Frame):
         self.bt1 = toolBarBtn(self, lingua.traducao("add_contact"), self.iconAdd,
                               lambda: addContactWindow(self.mainFrame, self.contactos, self.lingua))
         self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove)
-        self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort)
+        self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort,
+                              self.ordenarPeloNome)
         self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind,
                               lambda: findContactWindow(self.mainFrame, self.contactos, self.lingua))
         self.bt5 = toolBarBtn(self, lingua.traducao("show_all_entries"), self.iconAll,
@@ -82,6 +83,9 @@ class ToolBar(Frame):
     def mostrarTodosContactos(self):
         self.mainFrame.dadosFrame.filteredContacts = self.contactos
         self.mainFrame.dadosFrame.mostrarResultado()
+
+    def ordenarPeloNome(self):
+        self.mainFrame.dadosFrame.ordenarPeloNome()
 
     # Lista de funcionalidades
     # remover contacto
