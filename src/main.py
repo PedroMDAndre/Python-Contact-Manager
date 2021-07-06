@@ -18,7 +18,7 @@ class MainScreen(Frame):
         Frame.__init__(self)
         self.lingua = Translation()
         self.contactos = contactos
-        self.dadosFrame: ContactTreeView = ContactTreeView(self, contactos, self.lingua)
+        self.dadosFrame: ContactTreeView = ContactTreeView(self.contactos, self.lingua)
         self.toolbar: Frame = ToolBar(self, self.contactos, self.lingua)
 
         # Configurar Janela Principal

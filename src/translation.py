@@ -13,6 +13,7 @@ class Translation:
         "email": ["E-mail", "E-mail"],
         "cancel": ["Cancelar", "Cancel"],
         "add": ["Adicionar", "Add"],
+        "change": ["Alterar", "Change"],
         "msg_confirm_remove": ["Tem a certeza que pretende remover o contacto seleccionado?",
                                "Are you sure you want to remove the selected contact?"]
     }
