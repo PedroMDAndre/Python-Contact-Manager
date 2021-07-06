@@ -20,7 +20,11 @@ class ContactTreeView(Frame):
         # columns
         self.columns = ('#1', '#2', '#3', '#4')
 
-        self.tree = ttk.Treeview(self.frameTop, columns=self.columns, show='headings', style="mystyle.Treeview")
+        self.tree = ttk.Treeview(self.frameTop,
+                                 columns=self.columns,
+                                 show='headings',
+                                 selectmode="browse",
+                                 style="mystyle.Treeview")
 
         # definir headings
         self.definirHeadings()
@@ -74,14 +78,15 @@ class ContactTreeView(Frame):
         self.mostrarResultado()
 
     def removerContacto(self):
-        selectedItem = self.tree.selection()[0]
-        contacto = self.tree.item(selectedItem)["values"]
-        # eliminar contacto da lista de contactos
-        self.removerEntradaNaLista(contacto, self.contacts)
-        # eliminar contacto da lista de filtro
-        self.removerEntradaNaLista(contacto, self.filteredContacts)
-        # apresentar resultado
-        self.mostrarResultado()
+        if len(self.tree.selection()) > 0:
+            selectedItem = self.tree.selection()[0]
+            contacto = self.tree.item(selectedItem)["values"]
+            # eliminar contacto da lista de contactos
+            self.removerEntradaNaLista(contacto, self.contacts)
+            # eliminar contacto da lista de filtro
+            self.removerEntradaNaLista(contacto, self.filteredContacts)
+            # apresentar resultado
+            self.mostrarResultado()
 
     def removerEntradaNaLista(self, entrada, lista: list[any]):
         tokenProcurar = ""
