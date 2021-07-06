@@ -34,18 +34,18 @@ class ContactTreeView(Frame):
             self.filteredContacts.append(contact)
 
         # bind the select event
-        def item_selected(event):
-            for selected_item in self.tree.selection():
-                # dictionary
-                item = self.tree.item(selected_item)
-                # list
-                record = item['values']
-                print(record)
-                #
-                showinfo(title='Information',
-                         message=record[1])
+        # def item_selected(event):
+        #    for selected_item in self.tree.selection():
+        #        # dictionary
+        #        item = self.tree.item(selected_item)
+        #        # list
+        #        record = item['values']
+        #        print(record)
+        #        #
+        #        showinfo(title='Information',
+        #                 message=record[1])
 
-        self.tree.bind('<<TreeviewSelect>>', item_selected)
+        # self.tree.bind('<<TreeviewSelect>>', item_selected)
 
         self.tree.pack(side=LEFT, fill=BOTH, expand=YES)
 
@@ -87,3 +87,28 @@ class ContactTreeView(Frame):
             self.nomeOrdenarCrescente = True
 
         self.mostrarResultado()
+
+    def removerContacto(self):
+        selectedItem = self.tree.selection()[0]
+        contacto = self.tree.item(selectedItem)["values"]
+        # eliminar contacto da lista de contactos
+        self.removerEntradaNaLista(contacto, self.contacts)
+        # eliminar contacto da lista de filtro
+        self.removerEntradaNaLista(contacto, self.filteredContacts)
+        # apresentar resultado
+        self.mostrarResultado()
+
+    def removerEntradaNaLista(self, entrada, lista: list[any]):
+        tokenProcurar = ""
+        for elemento in entrada:
+            tokenProcurar += str(elemento)
+
+        contactoRemover = []
+        for contacto in lista:
+            token = "".join(contacto).lower()
+            if tokenProcurar == token:
+                contactoRemover = contacto
+                break
+
+        if contactoRemover in lista:
+            lista.remove(contactoRemover)

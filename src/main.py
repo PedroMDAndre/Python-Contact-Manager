@@ -51,7 +51,8 @@ class ToolBar(Frame):
 
         self.bt1 = toolBarBtn(self, lingua.traducao("add_contact"), self.iconAdd,
                               lambda: addContactWindow(self.mainFrame, self.contactos, self.lingua))
-        self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove)
+        self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove,
+                              self.removerContacto)
         self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort,
                               self.ordenarPeloNome)
         self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind,
@@ -74,6 +75,10 @@ class ToolBar(Frame):
         self.bt4["text"] = self.lingua.traducao("find_contacts")
         self.bt5["text"] = self.lingua.traducao("show_all_entries")
         self.bt6["text"] = self.lingua.traducao("change_language")
+
+    def removerContacto(self):
+        self.mainFrame.dadosFrame.removerContacto()
+        contactsIO.saveContactsData(self.contactos)
 
     def mudarLingua(self):
         self.lingua.trocarLingua()
