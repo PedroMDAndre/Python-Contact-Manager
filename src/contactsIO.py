@@ -1,7 +1,5 @@
 path: str = "../save/contacts.csv"
 separator: str = ","
-contactos_test: list[list[str]] = [['Jane', ' 123', ' 234', ' jane@outlook.com'],
-                              ['Paul', ' 153', ' 134', ' jane@outlook.com']]
 
 
 def saveContactsData(contactos: list[list[str]]):
@@ -23,7 +21,6 @@ def loadContactsData() -> list[list[str]]:
     for linha in linhas:
         pessoa = linha.replace("\n", "").split(separator)
         pessoas.append(pessoa)
-    print(pessoas)
     return pessoas
 
 

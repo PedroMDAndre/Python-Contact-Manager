@@ -32,20 +32,6 @@ class ContactTreeView(Frame):
             self.tree.insert('', END, values=contact)
             self.filteredContacts.append(contact)
 
-        # bind the select event
-        # def item_selected(event):
-        #    for selected_item in self.tree.selection():
-        #        # dictionary
-        #        item = self.tree.item(selected_item)
-        #        # list
-        #        record = item['values']
-        #        print(record)
-        #        #
-        #        showinfo(title='Information',
-        #                 message=record[1])
-
-        # self.tree.bind('<<TreeviewSelect>>', item_selected)
-
         self.tree.pack(side=LEFT, fill=BOTH, expand=YES)
 
         self.formatarTreeView()

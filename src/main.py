@@ -2,6 +2,7 @@ from tkinter import *
 import contactsIO
 from translation import Translation
 from contactTreeView import ContactTreeView
+from tkinter.messagebox import showinfo
 
 
 def main():
@@ -77,6 +78,7 @@ class ToolBar(Frame):
         self.bt6["text"] = self.lingua.traducao("change_language")
 
     def removerContacto(self):
+        #Perguntar se tem a certeza de que deseja eliminar o contacto
         self.mainFrame.dadosFrame.removerContacto()
         contactsIO.saveContactsData(self.contactos)
 

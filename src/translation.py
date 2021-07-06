@@ -11,7 +11,9 @@ class Translation:
         "mobile": ["Telemóvel", "Mobile"],
         "email": ["E-mail", "E-mail"],
         "cancel": ["Cancelar", "Cancel"],
-        "add": ["Adicionar", "Add"]
+        "add": ["Adicionar", "Add"],
+        "msg_confirm_remove": ["Tem a certeza que pretende remover o contacto seleccionado?",
+                               "Are you sure you want to remove the selected contact?"]
     }
 
     def __init__(self):
