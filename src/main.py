@@ -2,6 +2,7 @@ from tkinter import *
 import contactsIO
 from translation import Translation
 from contactTreeView import ContactTreeView
+from windowsUtils import centrarJanela
 from tkinter.messagebox import showinfo
 
 
@@ -25,8 +26,9 @@ class MainScreen(Frame):
 
     def configMainScreen(self):
         self.master.title("Gestor de contactos")
-        self.master.geometry("900x600")
+        self.master.geometry(centrarJanela(900, 600, self))
         self.master.resizable(False, False)
+        self.master.iconbitmap("../icons/app.ico")
         self.toolbar.pack(side=TOP, fill=BOTH)
         self.dadosFrame.pack(side=TOP, fill=BOTH, expand=YES)
         self.pack()
@@ -78,7 +80,7 @@ class ToolBar(Frame):
         self.bt6["text"] = self.lingua.traducao("change_language")
 
     def removerContacto(self):
-        #Perguntar se tem a certeza de que deseja eliminar o contacto
+        # Perguntar se tem a certeza de que deseja eliminar o contacto
         self.mainFrame.dadosFrame.removerContacto()
         contactsIO.saveContactsData(self.contactos)
 
@@ -133,8 +135,8 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
     etelemovel = Entry(AddContactWindow, width=30)
     eemail = Entry(AddContactWindow, width=30)
 
-    bcancelar = Button(AddContactWindow, text=lingua.traducao("cancel"), command=actFechar)
-    badicionar = Button(AddContactWindow, text=lingua.traducao("add"), command=actAdicionar)
+    bcancelar = Button(AddContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
+    badicionar = Button(AddContactWindow, text=lingua.traducao("add"), command=actAdicionar, width=8)
 
     lnome.grid(row=0, column=0, padx=20, pady=10, sticky=W)
     ltelefone.grid(row=1, column=0, padx=20, pady=10, sticky=W)
@@ -149,6 +151,8 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
     badicionar.grid(row=4, column=1, padx=20, pady=10)
 
     AddContactWindow.grid()
+    AddContactWindow.title(lingua.traducao("add_contact_title"))
+    AddContactWindow.geometry(centrarJanela(330, 210, AddContactWindow))
     AddContactWindow.mainloop()
 
 
@@ -158,7 +162,7 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
         mainFrame.master.attributes('-disabled', False)
 
     def actProcurar():
-        strProcurar= eprocurar.get().lower()
+        strProcurar = eprocurar.get().lower()
         result = []
         for contacto in contactos:
             token = "".join(contacto).lower()
@@ -179,11 +183,10 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
 
     eprocurar = Entry(findContactWindow, width=30)
 
-    bcancelar = Button(findContactWindow, text=lingua.traducao("cancel"), command=actFechar)
-    bprocurar = Button(findContactWindow, text=lingua.traducao("find_contacts"), command=actProcurar)
+    bcancelar = Button(findContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
+    bprocurar = Button(findContactWindow, text=lingua.traducao("find_contacts"), command=actProcurar, width=8)
 
     lprocurar.grid(row=0, column=0, padx=20, pady=10, sticky=W)
-
 
     eprocurar.grid(row=0, column=1, padx=20, pady=10)
 
@@ -191,6 +194,8 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
     bprocurar.grid(row=4, column=1, padx=20, pady=10)
 
     findContactWindow.grid()
+    findContactWindow.title(lingua.traducao("find_contacts"))
+    findContactWindow.geometry(centrarJanela(330, 90, findContactWindow))
     findContactWindow.mainloop()
 
 

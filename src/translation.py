@@ -1,6 +1,7 @@
 class Translation:
     dictionary: dict = {
         "add_contact": ["Adicionar\nContacto", "Add\nContact"],
+        "add_contact_title": ["Adicionar Contacto", "Add Contact"],
         "remove_contact": ["Remover\nContacto", "Remove\nContact"],
         "sort_contacts": ["Ordenar\nCres./Decres.", "Sort\nAsc./Des."],
         "find_contacts": ["Procurar", "Find"],

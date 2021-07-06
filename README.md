@@ -14,6 +14,3 @@
     # mensagem de confirmação de remoção de contacto
     # alteração de contacto
     # janela de mensagens não esconder a janela principal
-    # colocar janelas ao centro do ecra
-    # adicionar icon de programa
-    # adicionar title às caixas de texto
