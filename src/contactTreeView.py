@@ -9,6 +9,8 @@ class ContactTreeView(Frame):
         Frame.__init__(self)
         self.frameTop = Frame(self)
         self.frameBottom = Frame(self)
+        self.contacts = contacts
+        self.filteredContacts = []
         self.lingua = lingua
         self.style = ttk.Style()
 
@@ -24,9 +26,11 @@ class ContactTreeView(Frame):
         self.definirHeadings()
 
         # adding data to the treeview
-        sorted(contacts,)
-        for contact in contacts:
+        # construct filtered/sorted array
+
+        for contact in self.contacts:
             self.tree.insert('', END, values=contact)
+            self.filteredContacts.append(contact)
 
         # bind the select event
         def item_selected(event):
@@ -67,3 +71,8 @@ class ContactTreeView(Frame):
         self.style.configure("mystyle.Treeview.Heading", font=('Calibri', 10, 'bold'),
                              anchor=LEFT)  # Modify the font of the headings
         self.style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])  # Remove the borders
+
+    def mostrarResultado(self):
+        self.tree.delete(*self.tree.get_children())
+        for contact in self.filteredContacts:
+            self.tree.insert('', END, values=contact)

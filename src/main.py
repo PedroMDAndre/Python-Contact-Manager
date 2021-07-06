@@ -53,8 +53,10 @@ class ToolBar(Frame):
                               lambda: addContactWindow(self.mainFrame, self.contactos, self.lingua))
         self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove)
         self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort)
-        self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind)
-        self.bt5 = toolBarBtn(self, lingua.traducao("show_all_entries"), self.iconAll)
+        self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind,
+                              lambda: findContactWindow(self.mainFrame, self.contactos, self.lingua))
+        self.bt5 = toolBarBtn(self, lingua.traducao("show_all_entries"), self.iconAll,
+                              self.mostrarTodosContactos)
         self.bt6 = toolBarBtn(self, lingua.traducao("change_language"), self.iconLanguage,
                               self.mudarLingua)
         self.bt1.pack(side=LEFT)
@@ -77,12 +79,14 @@ class ToolBar(Frame):
         self.definirTextoButoes()
         self.mainFrame.dadosFrame.definirHeadings()
 
+    def mostrarTodosContactos(self):
+        self.mainFrame.dadosFrame.filteredContacts = self.contactos
+        self.mainFrame.dadosFrame.mostrarResultado()
+
     # Lista de funcionalidades
-    # fixar tamanho
     # remover contacto
     # sort
-    # search / reset
-    # ver detalhes / alterar
+    # ver alterar
 
 
 def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: Translation):
@@ -135,6 +139,48 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
 
     AddContactWindow.grid()
     AddContactWindow.mainloop()
+
+
+def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: Translation):
+    def actFechar():
+        findContactWindow.destroy()
+        mainFrame.master.attributes('-disabled', False)
+
+    def actProcurar():
+        strProcurar= eprocurar.get().lower()
+        result = []
+        for contacto in contactos:
+            token = "".join(contacto).lower()
+            if strProcurar in token:
+                result.append(contacto)
+        mainFrame.dadosFrame.filteredContacts = result
+        mainFrame.dadosFrame.mostrarResultado()
+
+        actFechar()
+
+    mainFrame.master.attributes('-disabled', True)
+    findContactWindow = Tk()
+    findContactWindow.protocol("WM_DELETE_WINDOW", actFechar)
+
+    findContactWindow.resizable(False, False)
+
+    lprocurar = Label(findContactWindow, text=lingua.traducao("find_contacts"))
+
+    eprocurar = Entry(findContactWindow, width=30)
+
+    bcancelar = Button(findContactWindow, text=lingua.traducao("cancel"), command=actFechar)
+    bprocurar = Button(findContactWindow, text=lingua.traducao("find_contacts"), command=actProcurar)
+
+    lprocurar.grid(row=0, column=0, padx=20, pady=10, sticky=W)
+
+
+    eprocurar.grid(row=0, column=1, padx=20, pady=10)
+
+    bcancelar.grid(row=4, column=0, padx=20, pady=10)
+    bprocurar.grid(row=4, column=1, padx=20, pady=10)
+
+    findContactWindow.grid()
+    findContactWindow.mainloop()
 
 
 def toolBarBtn(master, text, icon, command=""):
