@@ -1,22 +1,24 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import showinfo
-import contactsIO
 from translation import Translation
 
 
 class ContactTreeView(Frame):
     def __init__(self, contacts, lingua: Translation):
         Frame.__init__(self)
-
+        self.frameTop = Frame(self)
+        self.frameBottom = Frame(self)
         self.lingua = lingua
-        self["bg"]="blue"
+        self.style = ttk.Style()
+
+        self.frameTop.pack(side=TOP, fill=BOTH, expand=YES)
+        self.frameBottom.pack(side=BOTTOM, fill=X)
 
         # columns
         self.columns = ('#1', '#2', '#3', '#4')
 
-        self.tree = ttk.Treeview(self, columns=self.columns, show='headings')
-        print(self.tree.keys())
+        self.tree = ttk.Treeview(self.frameTop, columns=self.columns, show='headings', style="mystyle.Treeview")
 
         # definir headings
         self.definirHeadings()
@@ -41,20 +43,26 @@ class ContactTreeView(Frame):
 
         self.tree.pack(side=LEFT, fill=BOTH, expand=YES)
 
+        self.formatarTreeView()
+        self.adicionarScrollbars()
 
+    def definirHeadings(self):
+        self.tree.heading('#1', text=self.lingua.traducao("name"), anchor=W)
+        self.tree.heading('#2', text=self.lingua.traducao("phone"), anchor=W)
+        self.tree.heading('#3', text=self.lingua.traducao("mobile"), anchor=W)
+        self.tree.heading('#4', text=self.lingua.traducao("email"), anchor=W)
 
-        # add a scrollbar
-        # self.frame1 = Frame()
-        # self.frame2 = Frame()
-        self.scrollbary = ttk.Scrollbar(self, orient=VERTICAL, command=self.tree.yview)
-        self.scrollbarx = ttk.Scrollbar(self, orient=HORIZONTAL, command=self.tree.xview)
+    def adicionarScrollbars(self):
+        self.scrollbary = ttk.Scrollbar(self.frameTop, orient=VERTICAL, command=self.tree.yview)
+        self.scrollbarx = ttk.Scrollbar(self.frameBottom, orient=HORIZONTAL, command=self.tree.xview)
         self.tree.configure(yscroll=self.scrollbary.set)
         self.tree.configure(xscroll=self.scrollbarx.set)
         self.scrollbary.pack(side=RIGHT, fill=Y)
-        #self.scrollbarx.pack(side=BOTTOM, fill=X)
+        self.scrollbarx.pack(fill=X)
 
-    def definirHeadings(self):
-        self.tree.heading('#1', text=self.lingua.traducao("name"))
-        self.tree.heading('#2', text=self.lingua.traducao("phone"))
-        self.tree.heading('#3', text=self.lingua.traducao("mobile"))
-        self.tree.heading('#4', text=self.lingua.traducao("email"))
+    def formatarTreeView(self):
+        self.style.configure("mystyle.Treeview", highlightthickness=0, bd=0,
+                             font=('Calibri', 10))  # Modify the font of the body
+        self.style.configure("mystyle.Treeview.Heading", font=('Calibri', 10, 'bold'),
+                             anchor=LEFT)  # Modify the font of the headings
+        self.style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])  # Remove the borders
