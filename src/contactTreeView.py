@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import showinfo
 from translation import Translation
 
 
@@ -104,9 +103,10 @@ class ContactTreeView(Frame):
             tokenProcurar += str(elemento)
 
         contactoRemover = []
-        for contacto in lista:
-            token = "".join(contacto).lower()
-            if tokenProcurar == token:
+        for a, contacto in enumerate(lista):
+            token = "".join(contacto)
+
+            if tokenProcurar.lower() == token.lower():
                 contactoRemover = contacto
                 break
 
