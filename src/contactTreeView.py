@@ -4,6 +4,7 @@ from translation import Translation
 import contactsIO
 from auxWindows import changeContactWindow
 
+
 class ContactTreeView(Frame):
     def __init__(self, contacts, lingua: Translation):
         Frame.__init__(self)
@@ -74,7 +75,7 @@ class ContactTreeView(Frame):
             self.filteredContacts.sort()
             self.nomeOrdenarCrescente = False
         else:
-            self.filteredContacts.reverse()
+            self.filteredContacts.sort().reverse()
             self.nomeOrdenarCrescente = True
 
         self.mostrarResultado()
@@ -111,9 +112,9 @@ class ContactTreeView(Frame):
         contactoAlterado = self.tree.item(selectedItem)["values"]
         print(contactoAntigo)
 
-        changeContactWindow(self,contactoAntigo,contactoAlterado, self.lingua)
+        changeContactWindow(self, contactoAntigo, contactoAlterado, self.lingua)
 
-    def alterarContacto(self,contactoAntigo,contactoAlterado):
+    def alterarContacto(self, contactoAntigo, contactoAlterado):
         print(contactoAntigo)
         print(contactoAlterado)
         if contactoAlterado != contactoAntigo:
@@ -123,4 +124,3 @@ class ContactTreeView(Frame):
             self.filteredContacts.append(contactoAlterado)
             contactsIO.saveContactsData(self.contacts)
             self.mostrarResultado()
-
