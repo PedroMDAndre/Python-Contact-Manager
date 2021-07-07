@@ -9,5 +9,3 @@
     # ver detalhes / alterar
     # ler contactos de ficheiro (csv)
     # guardar contactos em ficheiro (csv)
-
-    # janela de mensagens não esconder a janela principal
