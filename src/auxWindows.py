@@ -1,5 +1,4 @@
 from tkinter import *
-import contactsIO
 from translation import Translation
 from windowsUtils import centrarJanela
 
@@ -24,11 +23,13 @@ def changeContactWindow(contactTree, contactoAntigo: list[str], contactoAlterado
 
     changeContactWindow.resizable(False, False)
 
+    # Labels
     lnome = Label(changeContactWindow, text=lingua.traducao("name"))
     ltelefone = Label(changeContactWindow, text=lingua.traducao("phone"))
     ltelemovel = Label(changeContactWindow, text=lingua.traducao("mobile"))
     lemail = Label(changeContactWindow, text=lingua.traducao("email"))
 
+    # Entries
     enome = Entry(changeContactWindow, width=30)
     etelefone = Entry(changeContactWindow, width=30)
     etelemovel = Entry(changeContactWindow, width=30)
@@ -39,9 +40,11 @@ def changeContactWindow(contactTree, contactoAntigo: list[str], contactoAlterado
     changeEntry(contactoAlterado[2], etelemovel)
     changeEntry(contactoAlterado[3], eemail)
 
+    # Buttons
     bcancelar = Button(changeContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
     balterar = Button(changeContactWindow, text=lingua.traducao("change"), command=actAlterar, width=8)
 
+    # Layout
     lnome.grid(row=0, column=0, padx=20, pady=10, sticky=W)
     ltelefone.grid(row=1, column=0, padx=20, pady=10, sticky=W)
     ltelemovel.grid(row=2, column=0, padx=20, pady=10, sticky=W)

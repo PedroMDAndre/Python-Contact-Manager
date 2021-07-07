@@ -36,8 +36,8 @@ class MainScreen(Frame):
 
 class ToolBar(Frame):
     def __init__(self, mainFrame: MainScreen, contactos, lingua: Translation):
+        # Iniciar Janela
         Frame.__init__(self, bg="white")
-
         self.contactos = contactos
         self.lingua = lingua
         self.pack()
@@ -51,32 +51,34 @@ class ToolBar(Frame):
         self.iconAll = PhotoImage(file="../icons/all.png")
         self.iconLanguage = PhotoImage(file="../icons/language.png")
 
-        self.bt1 = toolBarBtn(self, lingua.traducao("add_contact"), self.iconAdd,
-                              lambda: addContactWindow(self.mainFrame, self.contactos, self.lingua))
-        self.bt2 = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove,
-                              self.removerContacto)
-        self.bt3 = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort,
-                              self.ordenarPeloNome)
-        self.bt4 = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind,
-                              lambda: findContactWindow(self.mainFrame, self.contactos, self.lingua))
-        self.bt5 = toolBarBtn(self, lingua.traducao("show_all_entries"), self.iconAll,
-                              self.mostrarTodosContactos)
-        self.bt6 = toolBarBtn(self, lingua.traducao("change_language"), self.iconLanguage,
-                              self.mudarLingua)
-        self.bt1.pack(side=LEFT)
-        self.bt2.pack(side=LEFT)
-        self.bt3.pack(side=LEFT)
-        self.bt4.pack(side=LEFT)
-        self.bt5.pack(side=LEFT)
-        self.bt6.pack(side=LEFT)
+        self.btAddContact = toolBarBtn(self, lingua.traducao("add_contact"), self.iconAdd,
+                                       lambda: addContactWindow(self.mainFrame, self.contactos, self.lingua))
+        self.btRemoveContact = toolBarBtn(self, lingua.traducao("remove_contact"), self.iconRemove,
+                                          self.removerContacto)
+        self.btSortContacts = toolBarBtn(self, lingua.traducao("sort_contacts"), self.iconSort,
+                                         self.ordenarPeloNome)
+        self.btFindContacts = toolBarBtn(self, lingua.traducao("find_contacts"), self.iconFind,
+                                         lambda: findContactWindow(self.mainFrame, self.contactos, self.lingua))
+        self.btAllEntries = toolBarBtn(self, lingua.traducao("show_all_entries"), self.iconAll,
+                                       self.mostrarTodosContactos)
+        self.btChangeLanguage = toolBarBtn(self, lingua.traducao("change_language"), self.iconLanguage,
+                                           self.mudarLingua)
 
-    def definirTextoButoes(self):
-        self.bt1["text"] = self.lingua.traducao("add_contact")
-        self.bt2["text"] = self.lingua.traducao("remove_contact")
-        self.bt3["text"] = self.lingua.traducao("sort_contacts")
-        self.bt4["text"] = self.lingua.traducao("find_contacts")
-        self.bt5["text"] = self.lingua.traducao("show_all_entries")
-        self.bt6["text"] = self.lingua.traducao("change_language")
+        # Layout
+        self.btAddContact.pack(side=LEFT)
+        self.btRemoveContact.pack(side=LEFT)
+        self.btSortContacts.pack(side=LEFT)
+        self.btFindContacts.pack(side=LEFT)
+        self.btAllEntries.pack(side=LEFT)
+        self.btChangeLanguage.pack(side=LEFT)
+
+    def definirTextoBotoes(self):
+        self.btAddContact["text"] = self.lingua.traducao("add_contact")
+        self.btRemoveContact["text"] = self.lingua.traducao("remove_contact")
+        self.btSortContacts["text"] = self.lingua.traducao("sort_contacts")
+        self.btFindContacts["text"] = self.lingua.traducao("find_contacts")
+        self.btAllEntries["text"] = self.lingua.traducao("show_all_entries")
+        self.btChangeLanguage["text"] = self.lingua.traducao("change_language")
 
     def removerContacto(self):
         # Perguntar se tem a certeza de que deseja eliminar o contacto
@@ -88,7 +90,7 @@ class ToolBar(Frame):
 
     def mudarLingua(self):
         self.lingua.trocarLingua()
-        self.definirTextoButoes()
+        self.definirTextoBotoes()
         self.mainFrame.dadosFrame.definirHeadings()
 
     def mostrarTodosContactos(self):
@@ -117,6 +119,7 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
 
         actFechar()
 
+    # Iniciar Janela
     mainFrame.master.attributes('-disabled', True)
     AddContactWindow = Tk()
     AddContactWindow.after(1, lambda: AddContactWindow.focus_force())
@@ -125,11 +128,13 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
 
     AddContactWindow.resizable(False, False)
 
+    # Labels
     lnome = Label(AddContactWindow, text=lingua.traducao("name"))
     ltelefone = Label(AddContactWindow, text=lingua.traducao("phone"))
     ltelemovel = Label(AddContactWindow, text=lingua.traducao("mobile"))
     lemail = Label(AddContactWindow, text=lingua.traducao("email"))
 
+    # Entries
     enome = Entry(AddContactWindow, width=30)
     etelefone = Entry(AddContactWindow, width=30)
     etelemovel = Entry(AddContactWindow, width=30)
@@ -140,11 +145,13 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
     bcancelar = Button(AddContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
     badicionar = Button(AddContactWindow, text=lingua.traducao("add"), command=actAdicionar, width=8)
 
+    # Labels
     lnome.grid(row=0, column=0, padx=20, pady=10, sticky=W)
     ltelefone.grid(row=1, column=0, padx=20, pady=10, sticky=W)
     ltelemovel.grid(row=2, column=0, padx=20, pady=10, sticky=W)
     lemail.grid(row=3, column=0, padx=20, pady=10, sticky=W)
 
+    # Layout
     enome.grid(row=0, column=1, columnspan=2, padx=20, pady=10)
     etelefone.grid(row=1, column=1, columnspan=2, padx=20, pady=10)
     etelemovel.grid(row=2, column=1, columnspan=2, padx=20, pady=10)
@@ -176,6 +183,7 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
 
         actFechar()
 
+    # Iniciar Janela
     findContactWindow = Tk()
     findContactWindow.after(1, lambda: findContactWindow.focus_force())
     mainFrame.master.attributes('-disabled', True)
@@ -185,22 +193,24 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
 
     findContactWindow.resizable(False, False)
 
+    # Labels
     lprocurar = Label(findContactWindow, text=lingua.traducao("find_contacts"))
 
+    # Entries
     eprocurar = Entry(findContactWindow, width=30)
     eprocurar.focus()
 
+    # Buttons
     bcancelar = Button(findContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
     bprocurar = Button(findContactWindow, text=lingua.traducao("find_contacts"), command=actProcurar, width=8)
 
+    # Layout
     lprocurar.grid(row=0, column=0, padx=20, pady=10, sticky=W)
-
     eprocurar.grid(row=0, column=1, columnspan=2, padx=20, pady=10)
-
     bcancelar.grid(row=4, column=1, padx=20, pady=10)
     bprocurar.grid(row=4, column=2, padx=20, pady=10)
-
     findContactWindow.grid()
+
     findContactWindow.title(lingua.traducao("find_contacts"))
     findContactWindow.geometry(centrarJanela(330, 90, findContactWindow))
     findContactWindow.mainloop()
