@@ -103,7 +103,7 @@ class ToolBar(Frame):
 
 def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: Translation):
     def actFechar():
-        AddContactWindow.destroy()
+        addContactWindow.destroy()
         mainFrame.master.attributes('-disabled', False)
         mainFrame.focus_force()
 
@@ -121,29 +121,29 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
 
     # Iniciar Janela
     mainFrame.master.attributes('-disabled', True)
-    AddContactWindow = Tk()
-    AddContactWindow.after(1, lambda: AddContactWindow.focus_force())
-    AddContactWindow.protocol("WM_DELETE_WINDOW", actFechar)
-    AddContactWindow.bind('<Return>', (lambda event: actAdicionar()))
+    addContactWindow = Tk()
+    addContactWindow.after(1, lambda: addContactWindow.focus_force())
+    addContactWindow.protocol("WM_DELETE_WINDOW", actFechar)
+    addContactWindow.bind('<Return>', (lambda event: actAdicionar()))
 
-    AddContactWindow.resizable(False, False)
+    addContactWindow.resizable(False, False)
 
     # Labels
-    lnome = Label(AddContactWindow, text=lingua.traducao("name"))
-    ltelefone = Label(AddContactWindow, text=lingua.traducao("phone"))
-    ltelemovel = Label(AddContactWindow, text=lingua.traducao("mobile"))
-    lemail = Label(AddContactWindow, text=lingua.traducao("email"))
+    lnome = Label(addContactWindow, text=lingua.traducao("name"))
+    ltelefone = Label(addContactWindow, text=lingua.traducao("phone"))
+    ltelemovel = Label(addContactWindow, text=lingua.traducao("mobile"))
+    lemail = Label(addContactWindow, text=lingua.traducao("email"))
 
     # Entries
-    enome = Entry(AddContactWindow, width=30)
-    etelefone = Entry(AddContactWindow, width=30)
-    etelemovel = Entry(AddContactWindow, width=30)
-    eemail = Entry(AddContactWindow, width=30)
+    enome = Entry(addContactWindow, width=30)
+    etelefone = Entry(addContactWindow, width=30)
+    etelemovel = Entry(addContactWindow, width=30)
+    eemail = Entry(addContactWindow, width=30)
 
     enome.focus()
 
-    bcancelar = Button(AddContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
-    badicionar = Button(AddContactWindow, text=lingua.traducao("add"), command=actAdicionar, width=8)
+    bcancelar = Button(addContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
+    badicionar = Button(addContactWindow, text=lingua.traducao("add"), command=actAdicionar, width=8)
 
     # Labels
     lnome.grid(row=0, column=0, padx=20, pady=10, sticky=W)
@@ -159,10 +159,10 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
     bcancelar.grid(row=4, column=1, padx=20, pady=10)
     badicionar.grid(row=4, column=2, padx=20, pady=10)
 
-    AddContactWindow.grid()
-    AddContactWindow.title(lingua.traducao("add_contact_title"))
-    AddContactWindow.geometry(centrarJanela(330, 210, AddContactWindow))
-    AddContactWindow.mainloop()
+    addContactWindow.grid()
+    addContactWindow.title(lingua.traducao("add_contact_title"))
+    addContactWindow.geometry(centrarJanela(330, 210, addContactWindow))
+    addContactWindow.mainloop()
 
 
 def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: Translation):
