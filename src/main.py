@@ -43,7 +43,7 @@ class ToolBar(Frame):
         self.pack()
         self.mainFrame = mainFrame
 
-        # Icons dos Butões
+        # Icons dos Botões
         self.iconAdd = PhotoImage(file="../icons/add.png")
         self.iconRemove = PhotoImage(file="../icons/remove.png")
         self.iconSort = PhotoImage(file="../icons/sort.png")
