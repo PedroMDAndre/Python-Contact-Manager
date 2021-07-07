@@ -103,6 +103,7 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
     def actFechar():
         AddContactWindow.destroy()
         mainFrame.master.attributes('-disabled', False)
+        mainFrame.focus_force()
 
     def actAdicionar():
         contacto: list[str] = [
@@ -118,6 +119,7 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
 
     mainFrame.master.attributes('-disabled', True)
     AddContactWindow = Tk()
+    AddContactWindow.after(1, lambda: AddContactWindow.focus_force())
     AddContactWindow.protocol("WM_DELETE_WINDOW", actFechar)
     AddContactWindow.bind('<Return>', (lambda event: actAdicionar()))
 
@@ -133,6 +135,8 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
     etelemovel = Entry(AddContactWindow, width=30)
     eemail = Entry(AddContactWindow, width=30)
 
+    enome.focus()
+
     bcancelar = Button(AddContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
     badicionar = Button(AddContactWindow, text=lingua.traducao("add"), command=actAdicionar, width=8)
 
@@ -141,12 +145,12 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
     ltelemovel.grid(row=2, column=0, padx=20, pady=10, sticky=W)
     lemail.grid(row=3, column=0, padx=20, pady=10, sticky=W)
 
-    enome.grid(row=0, column=1, padx=20, pady=10)
-    etelefone.grid(row=1, column=1, padx=20, pady=10)
-    etelemovel.grid(row=2, column=1, padx=20, pady=10)
-    eemail.grid(row=3, column=1, padx=20, pady=10)
-    bcancelar.grid(row=4, column=0, padx=20, pady=10)
-    badicionar.grid(row=4, column=1, padx=20, pady=10)
+    enome.grid(row=0, column=1, columnspan=2, padx=20, pady=10)
+    etelefone.grid(row=1, column=1, columnspan=2, padx=20, pady=10)
+    etelemovel.grid(row=2, column=1, columnspan=2, padx=20, pady=10)
+    eemail.grid(row=3, column=1, columnspan=2, padx=20, pady=10)
+    bcancelar.grid(row=4, column=1, padx=20, pady=10)
+    badicionar.grid(row=4, column=2, padx=20, pady=10)
 
     AddContactWindow.grid()
     AddContactWindow.title(lingua.traducao("add_contact_title"))
@@ -158,6 +162,7 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
     def actFechar():
         findContactWindow.destroy()
         mainFrame.master.attributes('-disabled', False)
+        mainFrame.focus_force()
 
     def actProcurar():
         strProcurar = eprocurar.get().lower()
@@ -171,8 +176,10 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
 
         actFechar()
 
-    mainFrame.master.attributes('-disabled', True)
     findContactWindow = Tk()
+    findContactWindow.after(1, lambda: findContactWindow.focus_force())
+    mainFrame.master.attributes('-disabled', True)
+
     findContactWindow.bind('<Return>', (lambda event: actProcurar()))
     findContactWindow.protocol("WM_DELETE_WINDOW", actFechar)
 
@@ -181,16 +188,17 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
     lprocurar = Label(findContactWindow, text=lingua.traducao("find_contacts"))
 
     eprocurar = Entry(findContactWindow, width=30)
+    eprocurar.focus()
 
     bcancelar = Button(findContactWindow, text=lingua.traducao("cancel"), command=actFechar, width=8)
     bprocurar = Button(findContactWindow, text=lingua.traducao("find_contacts"), command=actProcurar, width=8)
 
     lprocurar.grid(row=0, column=0, padx=20, pady=10, sticky=W)
 
-    eprocurar.grid(row=0, column=1, padx=20, pady=10)
+    eprocurar.grid(row=0, column=1, columnspan=2, padx=20, pady=10)
 
-    bcancelar.grid(row=4, column=0, padx=20, pady=10)
-    bprocurar.grid(row=4, column=1, padx=20, pady=10)
+    bcancelar.grid(row=4, column=1, padx=20, pady=10)
+    bprocurar.grid(row=4, column=2, padx=20, pady=10)
 
     findContactWindow.grid()
     findContactWindow.title(lingua.traducao("find_contacts"))
