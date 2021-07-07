@@ -75,7 +75,8 @@ class ContactTreeView(Frame):
             self.filteredContacts.sort()
             self.nomeOrdenarCrescente = False
         else:
-            self.filteredContacts.sort().reverse()
+            self.filteredContacts.sort()
+            self.filteredContacts.reverse()
             self.nomeOrdenarCrescente = True
 
         self.mostrarResultado()
