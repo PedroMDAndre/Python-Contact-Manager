@@ -98,11 +98,6 @@ class ToolBar(Frame):
     def ordenarPeloNome(self):
         self.mainFrame.dadosFrame.ordenarPeloNome()
 
-    # Lista de funcionalidades
-    # remover contacto
-    # sort
-    # ver alterar
-
 
 def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: Translation):
     def actFechar():
@@ -124,6 +119,7 @@ def addContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua: 
     mainFrame.master.attributes('-disabled', True)
     AddContactWindow = Tk()
     AddContactWindow.protocol("WM_DELETE_WINDOW", actFechar)
+    AddContactWindow.bind('<Return>', (lambda event: actAdicionar()))
 
     AddContactWindow.resizable(False, False)
 
@@ -177,6 +173,7 @@ def findContactWindow(mainFrame: MainScreen, contactos: list[list[str]], lingua:
 
     mainFrame.master.attributes('-disabled', True)
     findContactWindow = Tk()
+    findContactWindow.bind('<Return>', (lambda event: actProcurar()))
     findContactWindow.protocol("WM_DELETE_WINDOW", actFechar)
 
     findContactWindow.resizable(False, False)
